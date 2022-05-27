@@ -9,7 +9,7 @@ import { resolve } from "path";
 
 const { webserver } = JSON.parse(readFileSync(resolve("./package.json"), "utf8"));
 
-export default async function server(app: Express): Promise<void> {
+export default async function server(app: Express): Promise<http.Server | https.Server> {
 
 	// Apply all middlewares
 	const middlewares = await asyncRequireContext<Middleware>("./lib/src/middleware").catch(() => []);
@@ -39,7 +39,7 @@ export default async function server(app: Express): Promise<void> {
 	const SSL_PORT = process.env.SSL_PORT || webserver.https.port;
 
 	// Start HTTP server
-	http.createServer(app).listen(PORT);
+	let server = http.createServer(app).listen(PORT);
 	console.info(chalk.redBright("SRV"), "HTTP server running on", chalk.cyan(`:${PORT} (http)`));
 
 	// Start HTTPS server
@@ -52,12 +52,14 @@ export default async function server(app: Express): Promise<void> {
 		const cert = files.filter(file => file.includes("cert"))[0];
 
 		// Initialize HTTPS server
-		https.createServer({
+		server = https.createServer({
 			key: await readFile(key, "utf8"),
 			cert: await readFile(cert, "utf8")
 		}, app).listen(SSL_PORT);
 		console.info(chalk.redBright("SRV"), "SSL server running on", chalk.cyan(`:${SSL_PORT} (https)`));
 
 	}
+
+	return server;
 
 }
