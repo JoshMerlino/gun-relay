@@ -1,7 +1,7 @@
 {
-    "name": "ts-server",
+    "name": "gun-relay",
     "version": "1.0.0",
-    "description": "Easily create back end servers with powerful API's using TypeScript and Express.",
+    "description": "Relay for Gun Decentralized Apps.",
     "main": "lib/src",
     "types": "lib/",
     "author": "Josh Merlino",
@@ -22,7 +22,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/JoshMerlino/ts-server.git"
+        "url": "https://github.com/JoshMerlino/gun-relay.git"
     },
     "scripts": {
         "watch-ts": "tsc -w",
