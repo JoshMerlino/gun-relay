@@ -1,0 +1,4 @@
+port: 3333
+
+# Used for hosting multiple sites with their own DNS name all on the same machine, which DNS name will this server bind to
+remote-address: 'gun.joshmerlino.me'
